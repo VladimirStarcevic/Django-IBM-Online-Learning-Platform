@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our Fullstack Courses</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'onlinecourse/course_list.css' %}">
+</head>
+<body class="course-body">
+     {% if all_courses %}
+         <ul>
+             {% for course in all_courses %}
+             <h1>{{ course.name }}</h1>
+             <p class="course-paragraph">
+                 {{ course.description }}
+             </p>
+             {% endfor %}
+             <hr class="course-separator">
+         </ul>
+     {% else %}
+         <p>No course are available</p>
+     {% endif %}
+
+</body>
+</html>

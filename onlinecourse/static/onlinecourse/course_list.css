@@ -1,0 +1,20 @@
+/* onlinecourse/static/onlinecourse/course.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Stil za ime kursa */
+h1 {
+    color: #004d99; /* Duboka Django plava */
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+/* Stil za opis kursa */
+p {
+    font-size: 1.1em;
+    color: #333;
+}

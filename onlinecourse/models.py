@@ -2,22 +2,128 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-from django.contrib.auth.models import User # Uvozimo standardni Django User Model
+from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils.timezone import now
 
-class Course(models.Model):
-    name = models.CharField(max_length=100, default="online course")
-    description = models.CharField(max_length=500)
-    pub_date = models.DateField(default=now) # Publicaton date
-    # M:M veza sa Instructor se obično dodaje ovde, ali za sada Lab to ne traži
 
-    def __str__(self):
-        return self.name
-
+# Instructor model
 class Instructor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # 1:1 veza ka Django Useru
-    full_time = models.BooleanField(default=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    full_time =models.BooleanField(default=True)
     total_learners = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"Instructor: {self.user.first_name} {self.user.last_name}"
+        return self.user.username
+
+# Learner model
+class Learner(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    STUDENT = 'student'
+    DEVELOPER = 'developer'
+    DATA_SCIENTIST = 'data_scientist'
+    DATABASE_ADMIN = 'database_admin'
+    OCCUPATION_CHOICES = [
+        (STUDENT, 'Student'),
+        (DEVELOPER, 'Developer'),
+        (DATA_SCIENTIST, 'Data Scientist'),
+        (DATABASE_ADMIN, 'Database Admin'),
+    ]
+
+    occupation = models.CharField(
+        null=False,
+        max_length=50,
+        choices=OCCUPATION_CHOICES,
+        default=STUDENT,
+    )
+    social_link = models.URLField(max_length=200)
+
+    def __str__(self):
+        return f"{self.user.username}\n{self.occupation}"
+
+class Course(models.Model):
+    name = models.CharField(null=False, max_length=100, default='online course')
+    image = models.ImageField(upload_to='course_images/', null=True, blank=True)
+    description = models.TextField(max_length=1000)
+    pub_date = models.DateField(null=True)
+    instructors = models.ManyToManyField(Instructor)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Enrollment')
+    total_enrollment = models.IntegerField(default=0)
+    is_enrolled = False
+    def __str__(self):
+        return f"Name: {self.name}\nDescription: {self.description}"
+
+    def total_score(self):
+        total_score = 0
+        for question in self.question_set.all():
+            total_score += question.grade
+        return total_score
+
+
+# Question and Choice could be used for online-course
+class Question(models.Model):
+    lesson = models.ForeignKey(Course, on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=200)
+    grade = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.question_text
+
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.choice_text
+
+
+
+# Lesson
+class Lesson(models.Model):
+    title = models.CharField(max_length=200, default="title")
+    order = models.IntegerField(default=0)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    content = models.TextField()
+
+
+
+# Enrollment model
+class Enrollment(models.Model):
+    AUDIT = 'audit'
+    HONOR = 'honor'
+    BETA = 'BETA'
+    COURSE_MODES = [
+        (AUDIT, 'Audit'),
+        (HONOR, 'Honor'),
+        (BETA, 'BETA')
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    date_enrolled = models.DateField(default=now)
+    mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
+    rating = models.FloatField(default=5.0)
+
+# One enrollment could have multiple submission
+# One submission could have multiple choices
+# One choice could belong to multiple submissions
+class Submission(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
