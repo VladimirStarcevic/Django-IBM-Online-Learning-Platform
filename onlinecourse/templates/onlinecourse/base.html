@@ -1,0 +1,35 @@
+<!-- onlinecourse/templates/onlinecourse/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Online Learning Platform{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'onlinecourse/course_list.css' %}">
+</head>
+<body>
+<!-- 1. GLAVNI HEADER (MIT Crvena) -->
+<header style="background-color: #A31F34; color: #f0f0f0; padding: 15px 20px;">
+    <h1 style="margin: 0; float: left; font-family: 'Orbitron', sans-serif;">Learning Platform</h1>
+    <nav style="float: right;">
+        <a href="/onlinecourse/list/" class="nav-link" style="margin-left: 30px; text-decoration: none;">Home</a>
+        <a href="/admin" class="nav-link" style="margin-left: 30px; text-decoration: none;">Admin Panel</a>
+    </nav>
+    <div style="clear: both;"></div>
+</header>
+
+<!-- 2. TRAKA ZA NASLOV (Blade Runner) -->
+<div class="page-heading-strip">
+    <h2 class="page-heading">
+        {% block page_heading %}Popular Courses{% endblock %}
+    </h2>
+</div>
+
+<!-- 3. GLAVNI SADRŽAJ -->
+<div class="content-wrapper">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

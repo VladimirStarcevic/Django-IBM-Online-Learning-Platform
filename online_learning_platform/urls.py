@@ -16,9 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # NOVO: Ako Request krene sa 'onlinecourse/', prosledi ga ruteru u onlinecourse/urls.py
+    # Request sa 'onlinecourse/', prosledi ga ruteru u onlinecourse/urls.py
     path('onlinecourse/', include('onlinecourse.urls')),
 ]
+
+
+
+if settings.DEBUG:
+    # 1. Serviranje MEDIA (slike)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    # 2. Serviranje STATIC (CSS/JS) - Standardni Django Development Handler
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()

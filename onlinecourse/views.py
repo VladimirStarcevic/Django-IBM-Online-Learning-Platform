@@ -3,10 +3,13 @@ from .models import Course
 # onlinecourse/views.py
 
 
-def course_list(request):
+# onlinecourse/views.py
 
-    all_courses = Course.objects.all()
+def course_list(request):
+    course_list_qs = Course.objects.order_by('-total_enrollment')[:10]
+
     context = {
-        'all_courses': all_courses,
+        'course_list': course_list_qs, # key 'course_list'
     }
     return render(request, 'onlinecourse/course_list.html', context)
+

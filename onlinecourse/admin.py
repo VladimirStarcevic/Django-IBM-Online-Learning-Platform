@@ -25,7 +25,7 @@ class QuestionInline(admin.StackedInline):
 # Pravila za prikaz Kursa
 class CourseAdmin(admin.ModelAdmin):
     # Polja koja će biti prikazana u glavnoj formi za unos (SQL SELECT)
-    fields = ['name', 'description', 'pub_date']
+    fields = ['name', 'description', 'pub_date', 'image']
 
     # KLJUČNA LINIJA: Vizuelno spajanje relacija N:1 na JEDNU stranicu!
     inlines = [LessonInline, QuestionInline]

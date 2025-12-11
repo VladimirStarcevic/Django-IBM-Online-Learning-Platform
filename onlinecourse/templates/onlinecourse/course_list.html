@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Our Fullstack Courses</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'onlinecourse/course_list.css' %}">
-</head>
-<body class="course-body">
-     {% if all_courses %}
-         <ul>
-             {% for course in all_courses %}
-             <h1>{{ course.name }}</h1>
-             <p class="course-paragraph">
-                 {{ course.description }}
-             </p>
-             {% endfor %}
-             <hr class="course-separator">
-         </ul>
-     {% else %}
-         <p>No course are available</p>
-     {% endif %}
+<!-- onlinecourse/templates/onlinecourse/course_list.html -->
 
-</body>
-</html>
+<!-- NASLEĐIVANJE: Koristi kostur iz base.html -->
+{% extends "onlinecourse/base.html" %}
+
+<!-- Definicija naslova stranice (koji menja block title u base.html) -->
+{% block title %}Courses{% endblock %}
+
+<!-- Definicija glavnog sadržaja stranice -->
+{% block content %}
+
+    <!-- OVO JE NOVI GRID CONTAINER -->
+    <ul class="course-grid-container">
+        {% for course in course_list %}
+            <li class="course-card">
+                <!-- Slika je sada 100x100px u CSS-u -->
+                <img src="{{ course.image.url }}" alt="{{ course.name }} Logo">
+                <h2>{{ course.name }}</h2>
+                <p class="course-paragraph">
+                    {{ course.description }}
+                </p>
+                <p style="font-weight: bold; color:  #A31F34;">Total Enrolled: {{ course.total_enrollment }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

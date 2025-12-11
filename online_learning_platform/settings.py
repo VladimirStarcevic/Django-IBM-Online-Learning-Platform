@@ -126,3 +126,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # FOLDER gde se prikupljaju fajlovi za produkciju
+STATICFILES_DIRS = [
+    BASE_DIR / 'onlinecourse/static', # <--- OBAVEZNA LINIJA: Gde je tvoj CSS
+]
+
+# MEDIA FILES (Gde Django trazi Slike)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
