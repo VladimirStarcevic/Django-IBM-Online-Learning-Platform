@@ -31,7 +31,7 @@ class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonInline, QuestionInline]
 
     # Dodatno: Polja koja ce se prikazati na LISTI svih kurseva
-    list_display = ('name', 'pub_date')
+    list_display = ('id','name', 'pub_date')
 
 
 # Pravila za prikaz Instruktora

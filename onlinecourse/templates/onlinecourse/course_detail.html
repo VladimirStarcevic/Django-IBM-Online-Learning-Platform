@@ -1,0 +1,65 @@
+{% extends 'onlinecourse/base.html' %}
+
+{% block title %}Course Details: {{ course.name }}{% endblock %}
+
+{% block page_heading %}Course Details: {{ course.name }}{% endblock %}
+
+{% block content %}
+
+    <!-- Glavni Container za detalje kursa -->
+    <div class="course-detail-container">
+
+        <!-- 1. DETALJI KURSA (Kao jedna velika kartica) -->
+        <div class="course-card detail-view">
+            <img src="{{ course.image.url }}" alt="{{ course.name }} Logo" style="width: 200px; height: 200px; object-fit: contain; margin-bottom: 25px;">
+
+            <h2 class="course-title">{{ course.name }}</h2>
+            <p class="course-description">{{ course.description }}</p>
+
+            <p style="font-weight: bold; color: #FFD700;">Total Enrolled: {{ course.total_enrollment }}</p>
+
+            <!-- 2. FORMA ZA ENROLL (Akcija) -->
+            <form action="{% url 'onlinecourse:enroll' course.id %}" method="post" style="margin-top: 20px;">
+                {% csrf_token %}
+                <input type="submit" value="Enroll Now" style="background-color: #A31F34; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: 'Orbitron', sans-serif;">
+            </form>
+        </div>
+
+        <!-- 3. LISTA LEKCIJA (Povezani N:1 Objekti) -->
+        <h3 style="color: #f0f0f0; margin-top: 40px; border-bottom: 2px solid #A31F34; padding-bottom: 10px;">Course Lessons</h3>
+        <ul class="lesson-list">
+            <!-- Upotreba reverse lookup-a: course.lesson_set.all -->
+            {% for lesson in course.lesson_set.all %}
+                <li class="lesson-item">
+                    <h5>Lesson {{ lesson.order }} - {{ lesson.title }}</h5>
+                    <p>{{ lesson.content|truncatechars:150 }}</p>
+                </li>
+            {% empty %}
+                <li style="color: #c0c0c0;">No lessons have been added yet.</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <!-- Dodavanje stila za detaljni prikaz (može i u course_list.css) -->
+    <style>
+        .course-card.detail-view {
+            max-width: 600px;
+            margin: 40px auto;
+            text-align: center;
+            border: 5px solid #FFD700;
+        }
+        .lesson-item {
+            background-color: #1c1c1c;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid #A31F34;
+            list-style: none;
+        }
+        .lesson-item h5 { color: #FFD700; }
+        .lesson-list { padding: 0; }
+    </style>
+
+
+{% endblock %}
