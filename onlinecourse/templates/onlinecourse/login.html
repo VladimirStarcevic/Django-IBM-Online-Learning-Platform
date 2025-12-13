@@ -1,0 +1,38 @@
+<!-- onlinecourse/templates/onlinecourse/login.html -->
+{% extends "onlinecourse/base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block page_heading %}Login to Learning Platform{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 500px; margin-top: 50px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font-family: 'Orbitron', sans-serif;">Sign In</h3>
+            </div>
+            <div class="panel-body">
+                <!-- KLASIČNA DJANGO LOGIN FORMA -->
+                <form method="post" action="">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="background-color: #A31F34; border-color: #A31F34;">Login</button>
+
+                    <!-- Prikaz greške nakon neuspešnog logina -->
+                    {% if message %}
+                        <div class="alert alert-danger" style="margin-top: 15px;">{{ message }}</div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

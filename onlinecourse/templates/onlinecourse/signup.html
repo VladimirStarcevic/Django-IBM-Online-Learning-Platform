@@ -1,0 +1,45 @@
+<!-- onlinecourse/templates/onlinecourse/signup.html -->
+{% extends 'onlinecourse/base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% block page_heading %}Sign Up to Learning Platform{% endblock %}
+{% block content %}
+    <div class="container" style="max-width: 500px; margin-top: 50px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font-family: 'Orbitron', sans-serif;">Create Account</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" action="{% url 'onlinecourse:signup' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="username"><b>Username</b></label>
+                        <input type="text" class="form-control" name="username" placeholder="Enter Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><b>Email</b></label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname"><b>First Name</b></label>
+                        <input type="text" class="form-control" name="firstname" placeholder="Enter First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname"><b>Last Name</b></label>
+                        <input type="text" class="form-control" name="lastname" placeholder="Enter Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" style="background-color: #A31F34; border-color: #A31F34;">Sign Up</button>
+
+                    {% if message %}
+                        <div class="alert alert-danger" style="margin-top: 15px;">{{ message }}</div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

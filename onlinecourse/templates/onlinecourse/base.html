@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <!-- 3. Tvoj Custom CSS (Za Stil) -->
     <link rel="stylesheet" type="text/css" href="{% static 'onlinecourse/course_list.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'onlinecourse/favicon-32x32.png' %}" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{% static 'onlinecourse/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="shortcut icon" href="{% static 'onlinecourse/favicon.ico' %}" />
 </head>
 <body style="display: flex; flex-direction: column; min-height: 100vh;"> <!-- KRITIČNO: Sticky Footer CSS -->
 
@@ -27,6 +30,7 @@
                 <li><a href="{% url 'onlinecourse:logout' %}" class="nav-link"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             {% else %}
                 <li><a href="{% url 'onlinecourse:login' %}" class="nav-link"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="{% url 'onlinecourse:signup' %}" class="nav-link"><span class="glyphicon glyphicon-log-in"></span> Sign Up</a></li>
             {% endif %}
         </ul>
     </div>
