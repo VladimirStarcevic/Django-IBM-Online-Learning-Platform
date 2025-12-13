@@ -1,27 +1,39 @@
-<!-- onlinecourse/templates/onlinecourse/course_list.html -->
-
-<!-- NASLEĐIVANJE: Koristi kostur iz base.html -->
+<!-- onlinecourse/templates/onlinecourse/course_list.html - ČIST VIEW -->
 {% extends "onlinecourse/base.html" %}
 
-<!-- Definicija naslova stranice (koji menja block title u base.html) -->
-{% block title %}Courses{% endblock %}
+{% block title %}All Courses{% endblock %}
+{% block page_heading %}All Courses{% endblock %}
 
-<!-- Definicija glavnog sadržaja stranice -->
 {% block content %}
 
-    <!-- OVO JE NOVI GRID CONTAINER -->
-    <ul class="course-grid-container">
-        {% for course in course_list %}
-            <li class="course-card">
-                <!-- Slika je sada 100x100px u CSS-u -->
-                <img src="{{ course.image.url }}" alt="{{ course.name }} Logo">
-                <h2>{{ course.name }}</h2>
-                <p class="course-paragraph">
-                    {{ course.description }}
-                </p>
-                <p style="font-weight: bold; color:  #A31F34;">Total Enrolled: {{ course.total_enrollment }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <!-- Container fluid za ceo viewport -->
+    <div class="container">
+
+        <!-- Prikaz liste Kurseva (Grid 3 po redu) -->
+        <div class="row">
+            {% for course in course_list|slice:":6" %}
+                <!-- Bootstrap kolona: 4/12 širine -->
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card" style="text-align: center; margin-bottom: 30px;">
+                        <!-- Slika Kursa -->
+                        <img class="card-img-top" src="{{ course.image.url }}" alt="{{ course.name }} Logo"
+                             style="width: 100px; height: 100px; object-fit: contain; margin: 15px auto;">
+
+                        <div class="card-body">
+                            <!-- NASLOV KURSA (Orbitron) -->
+                            <h5 class="card-title" style="font-family: 'Orbitron', sans-serif; color: #333333;">{{ course.name }}</h5>
+
+                            <!-- TOTAL ENROLLED (Naglasak) -->
+                            <p style="color: #A31F34; font-weight: bold;">Total Enrolled: {{ course.total_enrollment }}</p>
+
+                            <!-- Dugme koje vodi na Detalje -->
+                            <a href="{% url 'onlinecourse:course_details' course.id %}" class="btn btn-sm"
+                               style="background-color: #A31F34; color: white; margin-top: 10px; margin-bottom: 15px;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

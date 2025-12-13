@@ -1,108 +1,112 @@
-/* onlinecourse/static/onlinecourse/course_list.css - KONAČNA, ČISTA VERZIJA */
+/* onlinecourse/static/onlinecourse/course_list.css - KONAČAN, ČIST STIL */
 
-/* GLOBALNI STIL: BELA POZADINA */
+/* GLOBALNI STIL */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff; /* BELA POZADINA */
+    background-color: #ffffff; /* BELA POZADINA (čista baza) */
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* KRITIČNO: Footer na dnu */
 }
 
-/* 1. HEADER I NAVIGACIJA (MIT CRVENA POZADINA) */
-header {
+/* 1. HEADER & TRAKA ZA NASLOV (Čvrsti, Beli Stil) */
+.navbar {
     background-color: #A31F34 !important; /* MIT CRVENA */
-    color: #f0f0f0 !important; /* BELA/SVETLO SIVA SLOVA */
+    border-bottom: 3px solid #000000 !important; /* CRNA LINIJA */
+    color: #ffffff;
+}
+
+.nav-link, .navbar-brand {
+    color: #ffffff !important; /* BELA SLOVA U HEADERU */
     font-family: 'Orbitron', sans-serif !important;
-    letter-spacing: 2px;
 }
 
-.nav-link {
-    color: #c0c0c0 !important;
-    font-size: 1.1em;
-    transition: transform 0.2s ease, color 0.2s ease;
-    text-decoration: none !important; /* UKLANJA LINIJU */
-}
-.nav-link:hover {
-    color: #ffffff !important;
-    transform: scale(1.15);
-    text-decoration: none !important; /* UKLANJA LINIJU I NA HOVERU */
-}
-
-/* 2. TRAKA ZA NASLOV (CRNA POZADINA) */
 .page-heading-strip {
     background-color: #000000; /* CRNA Traka */
     padding: 15px 0;
-    border-bottom: 3px solid #A31F34; /* MIT CRVENA Linija */
 }
 
 .page-heading {
-    margin: 0 auto;
-    text-align: center;
-    color: #ffffff; /* BELA/SVETLO SIVA za Naslov */
-    font-size: 2.2em;
-    width: fit-content;
+    color: #ffffff; /* BELA SLOVA */
     font-family: 'Orbitron', sans-serif;
-}
-
-/* 3. KONTENJER ZA CEO GRID (KLASIČAN LAYOUT) */
-.course-grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    padding: 30px 50px;
-    max-width: 1300px;
-    margin: 0 auto;
-    list-style-type: none;
-}
-
-/* 4. STIL ZA KARTICU (BELO SA CRNOM/CRVENOM) */
-.course-card {
-    background-color: #ffffff; /* BELA KARTICA */
-    color: #000000; /* CRNA SLOVA */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Uobičajena senka */
-    padding: 30px 20px;
-    transition: transform 0.3s ease;
-    list-style-type: none;
     text-align: center;
-    border: 1px solid #e0e0e0; /* Svetli okvir */
+    margin: 0 auto;
 }
-.course-card img {
-    /* float: left; <--- OVO UKLONI */
+
+/* 2. GRID ZA KARTICE (Cards) */
+.card-deck {
+    margin-top: 30px;
+    padding: 20px 40px;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #A31F34; /* MIT CRVENI OKVIR NA HOVER */
+}
+
+.card-img-top {
     width: 100px;
     height: 100px;
     object-fit: contain;
-    margin-bottom: 15px;
-    margin: 0 auto 15px auto; /* NOVO: Centriranje slike */
-    display: block; /* NOVO: Osigurava da se margin auto primeni */
+    margin: 15px auto 10px auto;
 }
-.course-card:hover {
-    transform: translateY(-5px);
-    border: 3px solid #A31F34; /* OKVIR KARTICE POSTAJE MIT CRVEN */
+
+.card-title {
+    color: #333333;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.total-enrolled {
+    color: #A31F34; /* MIT CRVENA ZA NAGLASAK */
+    font-weight: bold;
+}
+
+/* 3. FOOTER (Fiksirano Dno) */
+footer {
+    background-color: #000000;
+    color: #c0c0c0;
+    padding: 15px;
+    text-align: center;
+}
+
+/* NOVO: STIL ZA CARD-BODY (Glavni unutrašnji kontejner) */
+.card-body {
+    padding: 10px 10px 20px 10px; /* Povećaj Padding unutar tela Kartice */
 }
 
 /* 5. NASLOV KURSA */
-.course-card h2 {
-    color: #333333; /* TAMNIJA SIVA */
+.card-title {
+    color: #000000; /* CRNA BOJA za Naslov */
     font-size: 1.3em;
     margin: 5px 0;
-    letter-spacing: 0.5px;
     font-family: 'Orbitron', sans-serif;
 }
 
 /* 6. OPIS KURSA */
-.course-card p {
-    color: #555555; /* SIVA za opis */
+.card-text {
+    color: #555555; /* SIVA za opis (svetlo siva) */
     font-size: 0.9em;
     line-height: 1.4;
 }
 
-/* TOTAL ENROLLED STIL */
+/* NOVO: STIL ZA DUGME (DA GA GURNE NA GORE) */
+.card-body .btn {
+    margin-top: 15px; /* Pritisni ga dole ispod teksta */
+    margin-bottom: 5px; /* Dodaj minimalnu marginu pre kraja kartice */
+    width: 80%;
+}
+
+/* TOTAL ENROLLED STIL (Finalna Korekcija) */
 .course-card p:last-child {
-    color: #000000; /* CRNA za Total Enrolled */
-    background-color: #f0f0f0; /* SVETLO SIVA POZADINA (za naglasak) */
-    padding: 5px;
-    border-radius: 3px;
-    font-weight: bold;
-    margin-top: 10px;
+    /* ... (stilovi ostaju isti) ... */
+    margin-bottom: 10px; /* Osigurava da se ne lepi za dugme/dno */
 }

@@ -1,6 +1,7 @@
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
+from django.contrib.auth import authenticate, login, logout #
 from .models import Course
 # onlinecourse/views.py
 
@@ -32,5 +33,15 @@ def course_details(request, course_id):
         'course': course
     }
     return render(request, 'onlinecourse/course_detail.html', context)
+
+def login_view(request):
+    # OVDE BI IŠAO KOD ZA GET I POST LOGIKU
+    # Za sada samo vraćamo praznu stranicu
+    return render(request, 'onlinecourse/login.html', {})
+
+# NOVO: LOGOUT VIEW (koristi ugrađenu Django funkciju)
+def logout_view(request):
+    logout(request) # <--- Koristi ugrađenu funkciju
+    return redirect('onlinecourse:course_list') # Preusmeri nazad na Home
 
 

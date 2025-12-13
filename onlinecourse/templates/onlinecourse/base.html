@@ -3,38 +3,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>{% block title %}Online Learning Platform{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 1. Bootstrap 3 CDN (Za Grid i Navigaciju) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- 2. Orbitron Font (MIT/Stil) -->
+    <link href="https://fonts.googleapis.com/com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 3. Tvoj Custom CSS (Za Stil) -->
     <link rel="stylesheet" type="text/css" href="{% static 'onlinecourse/course_list.css' %}">
 </head>
-<body>
-<!-- 1. GLAVNI HEADER (MIT Crvena) -->
-<header style="background-color: #A31F34; color: #f0f0f0; padding: 15px 20px;">
-    <h1 style="margin: 0; float: left; font-family: 'Orbitron', sans-serif;">Learning Platform</h1>
-    <nav style="float: right;">
-        <a href="/onlinecourse/list/" class="nav-link" style="margin-left: 30px; text-decoration: none;">Home</a>
-        <a href="/admin" class="nav-link" style="margin-left: 30px; text-decoration: none;">Admin Panel</a>
-    </nav>
-    <div style="clear: both;"></div>
-</header>
+<body style="display: flex; flex-direction: column; min-height: 100vh;"> <!-- KRITIČNO: Sticky Footer CSS -->
 
-<!-- 2. TRAKA ZA NASLOV  -->
-<div class="page-heading-strip">
+<!-- 1. HEADER (MIT Crvena Navbar) -->
+<nav class="navbar navbar-inverse" style="background-color: #A31F34; border-color: #000000; margin-bottom: 0;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand nav-link" href="/onlinecourse/list/" style="color: #f0f0f0; font-family: 'Orbitron', sans-serif;">Learning Platform</a>
+        </div>
+        <!-- LOGOVANJE/ODJAVA LOGIKA -->
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <li><a href="#" class="nav-link"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
+                <li><a href="{% url 'onlinecourse:logout' %}" class="nav-link"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'onlinecourse:login' %}" class="nav-link"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<!-- 2. TRAKA ZA NASLOV -->
+<div class="page-heading-strip" style="margin-bottom: 30px;">
     <h2 class="page-heading">
         {% block page_heading %}Popular Courses{% endblock %}
     </h2>
 </div>
 
-<!-- 3. GLAVNI SADRŽAJ -->
-<div class="content-wrapper">
+<!-- 3. GLAVNI SADRŽAJ (Flex Grow ga puni) -->
+<div class="content-wrapper" style="flex-grow: 1;">
     {% block content %}
+
     {% endblock %}
 </div>
-<footer style="background-color: #000000; color: #c0c0c0; text-align: center; padding: 15px; margin-top: 50px; font-family: 'Arial', sans-serif;">
-    <p style="margin: 0; font-size: 0.9em;">
-        &copy; 2025 Learning Platform. All Rights Reserved. | Backend by Vladimir Starcevic (Django/PostgreSQL)
-    </p>
+
+<!-- 4. FOOTER (Fiksiran na Dnu) -->
+<footer style="background-color: #000000; color: #c0c0c0; text-align: center; padding: 15px;">
+    <p> &copy; 2025 Learning Platform. All Rights Reserved. | Backend by Vladimir Starcevic (Django | PostgreSQL)</p>
 </footer>
+
+<!-- 5. Bootstrap 3 JS (Na DNU) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>
